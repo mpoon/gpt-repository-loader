@@ -17,7 +17,7 @@ def should_ignore(file_path, ignore_list):
             return True
     return False
 
-def process_repository(repo_path, ignore_list, output_file):
+def process_repository(repo_path, ignore_list, output_file, preamble):
     for root, _, files in os.walk(repo_path):
         for file in files:
             file_path = os.path.join(root, file)
@@ -31,7 +31,7 @@ def process_repository(repo_path, ignore_list, output_file):
                 output_file.write(f"{contents}\n")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         print("Usage: python git_to_text.py /path/to/git/repository")
         sys.exit(1)
 
@@ -43,9 +43,14 @@ if __name__ == "__main__":
     else:
         ignore_list = []
 
+    if len(sys.argv) > 2:
+        preamble = sys.argv[2]
+    else:
+        preamble = "The following text is a Git repository with code. The structure of the text are sections that begin with ----, followed by a single line containing the file path and file name, followed by a variable amount of lines containing the file contents. The text representing the Git repository ends when the symbols --END-- are encounted. Any further text beyond --END-- are meant to be interpreted as instructions using the aforementioned Git repository as context."
+
     with open('output.txt', 'w') as output_file:
-        output_file.write("The following text is a Git repository with code. The structure of the text are sections that begin with ----, followed by a single line containing the file path and file name, followed by a variable amount of lines containing the file contents. The text representing the Git repository ends when the symbols --END-- are encounted. Any further text beyond --END-- are meant to be interpreted as instructions using the aforementioned Git repository as context.\n")
-        process_repository(repo_path, ignore_list, output_file)
+        output_file.write(preamble + "\n")
+        process_repository(repo_path, ignore_list, output_file, preamble)
     with open('output.txt', 'a') as output_file:
         output_file.write("--END--")
     print("Repository contents written to output.txt.")
