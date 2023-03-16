@@ -3,3 +3,5 @@ __pycache__/
 *.log
 .git/*
 .gptignore
+LICENSE
+.github/*
