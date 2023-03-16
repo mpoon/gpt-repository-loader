@@ -32,11 +32,15 @@ def process_repository(repo_path, ignore_list, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python git_to_text.py /path/to/git/repository")
+        print("Usage: python git_to_text.py /path/to/git/repository [-p /path/to/preamble.txt]")
         sys.exit(1)
 
     repo_path = sys.argv[1]
     ignore_file_path = os.path.join(repo_path, ".gptignore")
+
+    preamble_file = None
+    if "-p" in sys.argv:
+        preamble_file = sys.argv[sys.argv.index("-p") + 1]
 
     if os.path.exists(ignore_file_path):
         ignore_list = get_ignore_list(ignore_file_path)
@@ -44,7 +48,12 @@ if __name__ == "__main__":
         ignore_list = []
 
     with open('output.txt', 'w') as output_file:
-        output_file.write("The following text is a Git repository with code. The structure of the text are sections that begin with ----, followed by a single line containing the file path and file name, followed by a variable amount of lines containing the file contents. The text representing the Git repository ends when the symbols --END-- are encounted. Any further text beyond --END-- are meant to be interpreted as instructions using the aforementioned Git repository as context.\n")
+        if preamble_file:
+            with open(preamble_file, 'r') as pf:
+                preamble_text = pf.read()
+                output_file.write(f"{preamble_text}\n")
+        else:
+            output_file.write("The following text is a Git repository with code. The structure of the text are sections that begin with ----, followed by a single line containing the file path and file name, followed by a variable amount of lines containing the file contents. The text representing the Git repository ends when the symbols --END-- are encounted. Any further text beyond --END-- are meant to be interpreted as instructions using the aforementioned Git repository as context.\n")
         process_repository(repo_path, ignore_list, output_file)
     with open('output.txt', 'a') as output_file:
         output_file.write("--END--")
