@@ -18,5 +18,18 @@ To get started with `gpt-repository-loader`, follow these steps:
 
 5. The tool will generate an output.txt file containing the text representation of the repository. You can now use this file as input for AI language models or other text-based processing tasks.
 
+## Running Tests
+
+To run the tests for `gpt-repository-loader`, follow these steps:
+
+1. Ensure you have Python 3 installed on your system.
+2. Navigate to the repository's root directory in your terminal.
+3. Run the tests with the following command:
+
+   ```bash
+   python -m unittest test_gpt_repository_loader.py
+   ```
+Now, the test harness is added to the `gpt-repository-loader` project. You can run the tests by executing the command `python -m unittest test_gpt_repository_loader.py` in your terminal.
+
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
