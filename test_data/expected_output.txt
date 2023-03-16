@@ -1,0 +1,10 @@
+----
+file2.py
+def hello():
+    print("Hello, World!")
+
+----
+folder1/file3.py
+def add(x, y):
+    return x + y
+
