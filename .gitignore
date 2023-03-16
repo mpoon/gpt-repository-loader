@@ -1,0 +1,26 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Output file
+output.txt
+
+# Unit test artifacts
+.coverage
+.coverage.
+htmlcov/
+
+# Virtual environment
+venv/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Miscellaneous
+*.swp
+*.swo
+*.swn
+*~
