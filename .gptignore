@@ -5,3 +5,4 @@ __pycache__/
 .gptignore
 LICENSE
 .github/*
+.tox/*
