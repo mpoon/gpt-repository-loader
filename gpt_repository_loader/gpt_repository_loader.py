@@ -3,6 +3,7 @@
 import os
 import sys
 import fnmatch
+import pyperclip
 
 def get_ignore_list(ignore_file_path):
     ignore_list = []
@@ -30,7 +31,7 @@ def process_repository(repo_path, ignore_list, output_file):
                 output_file.write(f"{relative_file_path}\n")
                 output_file.write(f"{contents}\n")
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) < 2:
         print("Usage: python git_to_text.py /path/to/git/repository [-p /path/to/preamble.txt]")
         sys.exit(1)
@@ -58,4 +59,13 @@ if __name__ == "__main__":
     with open('output.txt', 'a') as output_file:
         output_file.write("--END--")
     print("Repository contents written to output.txt.")
-    
+
+        # Copy the output to the clipboard if the -c flag is provided
+    if "-c" in sys.argv:
+        with open('output.txt', 'r') as output_file:
+            clipboard_contents = output_file.read()
+        pyperclip.copy(clipboard_contents)
+        print("Repository contents copied to clipboard.")
+
+if __name__ == "__main__":
+    main()
