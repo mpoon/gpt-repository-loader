@@ -6,6 +6,8 @@ __pycache__/
 
 dist
 build
+dist/*
+build/*
 # Output file
 output.txt
 

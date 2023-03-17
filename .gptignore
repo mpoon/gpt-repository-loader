@@ -7,3 +7,5 @@ LICENSE
 .github/*
 dist
 build
+dist/*
+build/*
