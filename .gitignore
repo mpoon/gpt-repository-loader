@@ -4,6 +4,8 @@ __pycache__/
 *.pyo
 *.pyd
 
+dist
+build
 # Output file
 output.txt
 
