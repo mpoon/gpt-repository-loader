@@ -32,7 +32,7 @@ def process_repository(repo_path, ignore_list, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python git_to_text.py /path/to/git/repository [-p /path/to/preamble.txt]")
+        print("Usage: python git_to_text.py /path/to/git/repository [-p /path/to/preamble.txt] [-o /path/to/output_file.txt]")
         sys.exit(1)
 
     repo_path = sys.argv[1]
@@ -41,6 +41,10 @@ if __name__ == "__main__":
     preamble_file = None
     if "-p" in sys.argv:
         preamble_file = sys.argv[sys.argv.index("-p") + 1]
+
+    output_file_path = 'output.txt'
+    if "-o" in sys.argv:
+        output_file_path = sys.argv[sys.argv.index("-o") + 1]
 
     if os.path.exists(ignore_file_path):
         ignore_list = get_ignore_list(ignore_file_path)
@@ -57,5 +61,5 @@ if __name__ == "__main__":
         process_repository(repo_path, ignore_list, output_file)
     with open('output.txt', 'a') as output_file:
         output_file.write("--END--")
-    print("Repository contents written to output.txt.")
+    print(f"Repository contents written to {output_file_path}.")
     
