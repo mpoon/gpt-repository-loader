@@ -31,7 +31,7 @@ def process_repository(repo_path, ignore_list, output_file):
                 output_file.write(f"{relative_file_path}\n")
                 output_file.write(f"{contents}\n")
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) < 2:
         print("Usage: python git_to_text.py /path/to/git/repository [-p /path/to/preamble.txt]")
         sys.exit(1)
@@ -66,4 +66,6 @@ if __name__ == "__main__":
             clipboard_contents = output_file.read()
         pyperclip.copy(clipboard_contents)
         print("Repository contents copied to clipboard.")
-    
+
+if __name__ == "__main__":
+    main()
