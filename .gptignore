@@ -6,3 +6,8 @@ __pycache__/
 LICENSE
 .github/*
 .tox/*
+.mypy_cache/*
+*.whl
+*.tar
+*.tar.gz
+.gitignore

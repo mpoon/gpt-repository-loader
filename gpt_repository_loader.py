@@ -8,6 +8,8 @@ def get_ignore_list(ignore_file_path):
     ignore_list = []
     with open(ignore_file_path, 'r') as ignore_file:
         for line in ignore_file:
+            if sys.platform == "win32":
+                line = line.replace("/", "\\")
             ignore_list.append(line.strip())
     return ignore_list
 
@@ -37,6 +39,13 @@ if __name__ == "__main__":
 
     repo_path = sys.argv[1]
     ignore_file_path = os.path.join(repo_path, ".gptignore")
+    if sys.platform == "win32":
+        ignore_file_path = ignore_file_path.replace("/", "\\")
+
+    if not os.path.exists(ignore_file_path):
+        # try and use the .gptignore file in the current directory as a fallback.
+        HERE = os.path.dirname(os.path.abspath(__file__))
+        ignore_file_path = os.path.join(HERE, ".gptignore")
 
     preamble_file = None
     if "-p" in sys.argv:
