@@ -3,6 +3,7 @@
 import os
 import sys
 import fnmatch
+from git import Repo
 
 def get_ignore_list(ignore_file_path):
     ignore_list = []
@@ -18,17 +19,26 @@ def should_ignore(file_path, ignore_list):
     return False
 
 def process_repository(repo_path, ignore_list, output_file):
-    for root, _, files in os.walk(repo_path):
-        for file in files:
-            file_path = os.path.join(root, file)
-            relative_file_path = os.path.relpath(file_path, repo_path)
+    # Open the Git repository
+    repo = Repo(repo_path)
 
-            if not should_ignore(relative_file_path, ignore_list):
-                with open(file_path, 'r', errors='ignore') as file:
-                    contents = file.read()
-                output_file.write("-" * 4 + "\n")
-                output_file.write(f"{relative_file_path}\n")
-                output_file.write(f"{contents}\n")
+    # Get the list of all tracked files in the repository
+    tracked_files = [f for f in repo.git.ls_files().split('\n') if f]
+
+    for file in tracked_files:
+        file_path = os.path.join(repo_path, file)
+        relative_file_path = os.path.relpath(file_path, repo_path)
+
+        # If the path is a directory, skip it
+        if os.path.isdir(file_path):
+            continue
+
+        if not should_ignore(relative_file_path, ignore_list):
+            with open(file_path, 'r', errors='ignore') as file:
+                contents = file.read()
+            output_file.write("-" * 4 + "\n")
+            output_file.write(f"{relative_file_path}\n")
+            output_file.write(f"{contents}\n")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
