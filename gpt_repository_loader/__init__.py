@@ -1,1 +1,1 @@
-from .gpt_repository_loader import main
+from .gpt_repository_loader import main, git_repo_to_text

@@ -2,10 +2,26 @@
 
 `gpt-repository-loader` is a command-line tool that converts the contents of a Git repository into a text format, preserving the structure of the files and file contents. The generated output can be interpreted by AI language models, allowing them to process the repository's contents for various tasks, such as code review or documentation generation.
 
+## Installation & Usage
+`pip install gpt-repository-loader` install the project locally.
+
+Now you'll be able to use the console script `gpt-repository-loader` with any project.
+
+```gpt-repository-loader /path/to/git/repository -c```
+this will copy the content of the project into clipboard which you can directly paste into 
+
+You can also now use `gpt-repository-loader` as a library.
+
+```python
+from gpt_repository_loader import git_repo_to_text
+repo_text = git_repo_to_text('/path/to/repository')
+```
+
+
 ## Contributing
 Some context around building this is [located here](https://github.com/mpoon/gpt-repository-loader/discussions/18). Appreciate any issues and pull requests in the spirit of having mostly GPT build out this tool. Using [ChatGPT Plus](https://chat.openai.com/) is recommended for quick access to GPT-4.
 
-## Getting Started
+## Getting Started with contribution
 
 To get started with `gpt-repository-loader`, follow these steps:
 
