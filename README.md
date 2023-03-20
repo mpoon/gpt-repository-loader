@@ -10,16 +10,21 @@ Some context around building this is [located here](https://github.com/mpoon/gpt
 To get started with `gpt-repository-loader`, follow these steps:
 
 1. Ensure you have Python 3 installed on your system.
-2. Clone or download the `gpt-repository-loader` repository.
-3. Navigate to the repository's root directory in your terminal.
-4. Run `gpt-repository-loader` with the following command:
+2. Ensure you have GitPython installed on your system. You can install it with the following command:
+
+   ```bash
+   pip install GitPython
+   ```
+3. Clone or download the `gpt-repository-loader` repository.
+4. Navigate to the repository's root directory in your terminal.
+5. Run `gpt-repository-loader` with the following command:
 
    ```bash
    python gpt_repository_loader.py /path/to/git/repository [-p /path/to/preamble.txt] [-o /path/to/output_file.txt]
    ```
     Replace `/path/to/git/repository` with the path to the Git repository you want to process. Optionally, you can specify a preamble file with -p or an output file with -o. If not specified, the default output file will be named output.txt in the current directory.
 
-5. The tool will generate an output.txt file containing the text representation of the repository. You can now use this file as input for AI language models or other text-based processing tasks.
+6. The tool will generate an output.txt file containing the text representation of the repository. You can now use this file as input for AI language models or other text-based processing tasks.
 
 ## Running Tests
 
