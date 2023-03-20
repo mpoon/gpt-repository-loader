@@ -11,3 +11,8 @@ LICENSE
 *.tar
 *.tar.gz
 .gitignore
+*.env*
+*.png
+*.jpeg
+*.jpg
+*bin/*
