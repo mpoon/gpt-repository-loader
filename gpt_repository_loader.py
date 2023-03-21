@@ -71,7 +71,7 @@ if __name__ == "__main__":
         process_repository(repo_path, ignore_list, output_file)
     with open(output_file_path, 'a') as output_file:
         output_file.write("--END--")
-    print("Repository contents written to output.txt.")
+    print(f"Repository contents written to {output_file_path}.")
 
         # Copy the output to the clipboard if the -c flag is provided
     if "-c" in sys.argv:
