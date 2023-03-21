@@ -9,6 +9,8 @@ def get_ignore_list(ignore_file_path):
     ignore_list = []
     with open(ignore_file_path, 'r') as ignore_file:
         for line in ignore_file:
+            if sys.platform == "win32":
+                line = line.replace("/", "\\")
             ignore_list.append(line.strip())
     return ignore_list
 
@@ -33,22 +35,33 @@ def process_repository(repo_path, ignore_list, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python git_to_text.py /path/to/git/repository [-p /path/to/preamble.txt]")
+        print("Usage: python git_to_text.py /path/to/git/repository [-p /path/to/preamble.txt] [-o /path/to/output_file.txt]")
         sys.exit(1)
 
     repo_path = sys.argv[1]
     ignore_file_path = os.path.join(repo_path, ".gptignore")
+    if sys.platform == "win32":
+        ignore_file_path = ignore_file_path.replace("/", "\\")
+
+    if not os.path.exists(ignore_file_path):
+        # try and use the .gptignore file in the current directory as a fallback.
+        HERE = os.path.dirname(os.path.abspath(__file__))
+        ignore_file_path = os.path.join(HERE, ".gptignore")
 
     preamble_file = None
     if "-p" in sys.argv:
         preamble_file = sys.argv[sys.argv.index("-p") + 1]
+
+    output_file_path = 'output.txt'
+    if "-o" in sys.argv:
+        output_file_path = sys.argv[sys.argv.index("-o") + 1]
 
     if os.path.exists(ignore_file_path):
         ignore_list = get_ignore_list(ignore_file_path)
     else:
         ignore_list = []
 
-    with open('output.txt', 'w') as output_file:
+    with open(output_file_path, 'w') as output_file:
         if preamble_file:
             with open(preamble_file, 'r') as pf:
                 preamble_text = pf.read()
@@ -56,7 +69,7 @@ if __name__ == "__main__":
         else:
             output_file.write("The following text is a Git repository with code. The structure of the text are sections that begin with ----, followed by a single line containing the file path and file name, followed by a variable amount of lines containing the file contents. The text representing the Git repository ends when the symbols --END-- are encounted. Any further text beyond --END-- are meant to be interpreted as instructions using the aforementioned Git repository as context.\n")
         process_repository(repo_path, ignore_list, output_file)
-    with open('output.txt', 'a') as output_file:
+    with open(output_file_path, 'a') as output_file:
         output_file.write("--END--")
     print("Repository contents written to output.txt.")
 
@@ -66,4 +79,3 @@ if __name__ == "__main__":
             clipboard_contents = output_file.read()
         pyperclip.copy(clipboard_contents)
         print("Repository contents copied to clipboard.")
-    
