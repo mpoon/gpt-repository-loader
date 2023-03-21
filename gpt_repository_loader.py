@@ -3,6 +3,7 @@
 import os
 import sys
 import fnmatch
+import pyperclip
 
 def get_ignore_list(ignore_file_path):
     ignore_list = []
@@ -71,4 +72,10 @@ if __name__ == "__main__":
     with open(output_file_path, 'a') as output_file:
         output_file.write("--END--")
     print(f"Repository contents written to {output_file_path}.")
-    
+
+        # Copy the output to the clipboard if the -c flag is provided
+    if "-c" in sys.argv:
+        with open('output.txt', 'r') as output_file:
+            clipboard_contents = output_file.read()
+        pyperclip.copy(clipboard_contents)
+        print("Repository contents copied to clipboard.")
