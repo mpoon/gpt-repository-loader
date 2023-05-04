@@ -16,3 +16,4 @@ LICENSE
 *.jpeg
 *.jpg
 *bin/*
+.DS_Store
