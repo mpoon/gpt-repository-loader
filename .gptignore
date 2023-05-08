@@ -1,5 +1,7 @@
 # Node.js dependencies
 node_modules/
+package-lock.json
+package.json
 
 # Output of the TypeScript compiler
 dist/
@@ -56,3 +58,4 @@ typings/
 
 # Optional REPL history
 .node_repl_history
+
