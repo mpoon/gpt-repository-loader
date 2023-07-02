@@ -15,7 +15,11 @@ def get_ignore_list(ignore_file_path):
 
 def should_ignore(file_path, ignore_list):
     for pattern in ignore_list:
-        if fnmatch.fnmatch(file_path, pattern):
+        if pattern.startswith("!"):
+            negated_pattern = pattern[1:]  # Remove the negation prefix '!'
+            if fnmatch.fnmatch(file_path, negated_pattern):
+                return False
+        elif fnmatch.fnmatch(file_path, pattern):
             return True
     return False
 
