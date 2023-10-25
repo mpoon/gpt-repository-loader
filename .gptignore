@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
+*.pyi
 *.log
 .git/*
 .gptignore
@@ -11,8 +12,15 @@ LICENSE
 *.tar
 *.tar.gz
 .gitignore
+.dockerignore
 *.env*
 *.png
 *.jpeg
 *.jpg
 *bin/*
+*.lock
+env/*
+venv/*
+.coverage
+.pytest_cache/*
+.flake8
