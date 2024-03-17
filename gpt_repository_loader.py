@@ -1,3 +1,8 @@
+"""
+Parses a Git repository to extract file contents, while excluding ignored files and directories based on a .gptignore file. 
+
+Iterates through the repository directory structure using os.walk(). Checks each file path against the ignore rules. Opens non-ignored files, reads the contents, and writes the file path and contents to the output file.
+"""
 #!/usr/bin/env python3
 
 import os
@@ -19,7 +24,22 @@ def should_ignore(file_path, ignore_list):
             return True
     return False
 
+def print_directory_structure(repo_path, ignore_list, output_file, level=0):
+    if level == 0:
+        output_file.write("Project Directory Structure:\n")
+    for item in os.listdir(repo_path):
+        item_path = os.path.join(repo_path, item)
+        relative_item_path = os.path.relpath(item_path, repo_path)
+
+        if not should_ignore(relative_item_path, ignore_list):
+            output_file.write("  " * level + "- " + item + "\n")
+            if os.path.isdir(item_path):
+                print_directory_structure(item_path, ignore_list, output_file, level + 1)
+    if level == 0:
+        output_file.write("End Project Directory Structure Visual\n\n")
+
 def process_repository(repo_path, ignore_list, output_file):
+    print_directory_structure(repo_path, ignore_list, output_file)
     for root, _, files in os.walk(repo_path):
         for file in files:
             file_path = os.path.join(root, file)
@@ -71,4 +91,4 @@ if __name__ == "__main__":
     with open(output_file_path, 'a') as output_file:
         output_file.write("--END--")
     print(f"Repository contents written to {output_file_path}.")
-    
+
